@@ -1,0 +1,6 @@
+streamlit
+transformers
+newspaper3k
+scikit-learn
+lxml_html_clean
+huggingface_hub

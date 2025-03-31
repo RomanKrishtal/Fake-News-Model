@@ -1,4 +1,3 @@
-
 import streamlit as st
 from newspaper import Article
 from transformers import pipeline
@@ -14,15 +13,20 @@ def extract_text_from_url(url):
         return None
 
 # Load Hugging Face fake news model
-model_name = "jy46604790/Fake-News-Bert-Detect"
+model_name = "Pulk17/Fake-News-Detection"
 fake_news_detector = pipeline("text-classification", model=model_name, tokenizer=model_name)
 
-# 🧠 Add label mapping
+# Label mapping for readability
 label_map = {
     "LABEL_0": "❌ Fake",
     "LABEL_1": "✅ Real"
 }
 
+# Truncate long article text to avoid model input errors
+def truncate_text(text, max_chars=1000):
+    return text[:max_chars]
+
+# Streamlit UI
 st.title("📰 Fake News Detection App")
 st.subheader("Paste a news article link to check if it's Fake or Real")
 
@@ -32,9 +36,12 @@ if st.button("Analyze"):
     if url:
         article_text = extract_text_from_url(url)
         if article_text:
-            prediction = fake_news_detector(article_text)
+            if len(article_text) > 1000:
+                st.warning("⚠️ Article was too long — we truncated it for analysis.")
+            safe_text = truncate_text(article_text)
+            prediction = fake_news_detector(safe_text)
             raw_label = prediction[0]['label']
-            label = label_map.get(raw_label, raw_label)  # Convert LABEL_0/1 → Fake/Real
+            label = label_map.get(raw_label, raw_label)
             st.subheader(f"Prediction: {label}")
         else:
             st.error("Could not extract text from the URL. Try another link.")
