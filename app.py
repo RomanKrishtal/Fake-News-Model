@@ -12,8 +12,8 @@ def extract_text_from_url(url):
     except Exception as e:
         return None
 
-# Load Hugging Face fake news model
-model_name = "Pulk17/Fake-News-Detection"
+# Load Hugging Face fake news model (lighter version for Streamlit Cloud)
+model_name = "mrm8488/bert-tiny-fake-news-detection"
 fake_news_detector = pipeline("text-classification", model=model_name, tokenizer=model_name)
 
 # Label mapping for readability
