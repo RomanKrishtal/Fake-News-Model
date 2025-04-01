@@ -5,7 +5,7 @@ from transformers import pipeline
 # Cached model loading
 @st.cache_resource
 def load_model():
-    model_name = "philschmid/MiniLM-L6-H384-uncased-fake-news"
+    model_name = "mohsenfayyaz/fake-news-detector"
     return pipeline("text-classification", model=model_name, tokenizer=model_name)
 
 # Extract text from a news article URL
