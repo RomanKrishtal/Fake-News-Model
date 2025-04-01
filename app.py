@@ -13,7 +13,7 @@ def extract_text_from_url(url):
         return None
 
 # Load Hugging Face fake news model (lighter version for Streamlit Cloud)
-model_name = "philschmid/MiniLM-L6-H384-uncased-fake-news"
+model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
 fake_news_detector = pipeline("text-classification", model=model_name, tokenizer=model_name)
 
 # Label mapping for readability
